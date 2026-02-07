@@ -1,0 +1,52 @@
+version: "3.9"
+
+services:
+  app:
+    build: .
+    image: ghcr.io/set-night/mindapp:latest
+    container_name: mindapp
+    ports:
+      - "${PORT:-3000}:${PORT:-3000}"
+    environment:
+      - BOT_TOKEN=${BOT_TOKEN}
+      - OPENROUTER_API_KEY=${OPENROUTER_API_KEY}
+      - DATABASE_URL=postgres://mindapp:mindapp@postgres:5432/mindapp?sslmode=disable
+      - MERCHANT_ID=${MERCHANT_ID}
+      - PAYMENT_API_KEY=${PAYMENT_API_KEY}
+      - CRYPTOMUS_API_URL=${CRYPTOMUS_API_URL:-https://api.cryptomus.com/v1}
+      - ADMIN_IDS=${ADMIN_IDS}
+      - MARKUP_PERCENT_NORMAL=${MARKUP_PERCENT_NORMAL:-30}
+      - MARKUP_PERCENT_PREMIUM=${MARKUP_PERCENT_PREMIUM:-15}
+      - PORT=${PORT:-3000}
+      - BOT_DROP_PENDING_UPDATES=${BOT_DROP_PENDING_UPDATES:-false}
+      - LOG_TELEGRAM_CHAT_ID=${LOG_TELEGRAM_CHAT_ID}
+      - LOG_TOPIC_ERROR=${LOG_TOPIC_ERROR}
+      - LOG_TOPIC_BALANCE_TOPUP=${LOG_TOPIC_BALANCE_TOPUP}
+      - LOG_TOPIC_PROMO_ACTIVATE=${LOG_TOPIC_PROMO_ACTIVATE}
+      - LOG_TOPIC_PREMIUM_PURCHASE=${LOG_TOPIC_PREMIUM_PURCHASE}
+      - LOG_TOPIC_FREE_BALANCE=${LOG_TOPIC_FREE_BALANCE}
+      - LOG_TOPIC_REGISTRATION=${LOG_TOPIC_REGISTRATION}
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: mindapp-postgres
+    environment:
+      POSTGRES_DB: mindapp
+      POSTGRES_USER: mindapp
+      POSTGRES_PASSWORD: mindapp
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U mindapp"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+    driver: local
