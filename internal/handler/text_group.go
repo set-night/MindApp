@@ -135,11 +135,9 @@ func (h *Handler) HandleTextGroup(ctx context.Context, b *bot.Bot, update *model
 		Content: userText,
 	})
 
-	// 7. Send typing indicator
-	b.SendChatAction(ctx, &bot.SendChatActionParams{
-		ChatID: chatID,
-		Action: models.ChatActionTyping,
-	})
+	// 7. Send typing indicator (repeats every 4s until stopped)
+	stopTyping := tg.StartTyping(ctx, b, chatID)
+	defer stopTyping()
 
 	// 8. Call OpenRouter
 	reqCtx, cancel := context.WithTimeout(ctx, config.RequestTimeout)

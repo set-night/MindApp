@@ -223,15 +223,17 @@ func (h *Handler) HandleTextPrivate(ctx context.Context, b *bot.Bot, update *mod
 		Content: userContent,
 	})
 
-	// 10. Send typing indicator
-	b.SendChatAction(ctx, &bot.SendChatActionParams{
-		ChatID: chatID,
-		Action: models.ChatActionTyping,
-	})
+	// 10. Send typing indicator (repeats every 4s until stopped)
+	stopTyping := tg.StartTyping(ctx, b, chatID)
+	defer stopTyping()
 
+	statusText := "⏳ Обрабатываю запрос..."
+	if model.IsFree() {
+		statusText = "⏳ Обрабатываю запрос...\n\n⚠️ Бесплатная модель — ответ может занять больше времени."
+	}
 	statusMsg, _ := b.SendMessage(ctx, &bot.SendMessageParams{
 		ChatID: chatID,
-		Text:   "⏳ Обрабатываю запрос...",
+		Text:   statusText,
 	})
 
 	// 11. Call OpenRouter API

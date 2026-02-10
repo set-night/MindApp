@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"log/slog"
+	"time"
 
 	"github.com/go-telegram/bot"
 	"github.com/go-telegram/bot/models"
@@ -67,6 +68,32 @@ func EditLongMessage(ctx context.Context, b *bot.Bot, chatID int64, messageID in
 		})
 	}
 	return err
+}
+
+// StartTyping sends "typing..." action every 4 seconds until the returned cancel function is called.
+func StartTyping(ctx context.Context, b *bot.Bot, chatID int64) context.CancelFunc {
+	ctx, cancel := context.WithCancel(ctx)
+	go func() {
+		ticker := time.NewTicker(4 * time.Second)
+		defer ticker.Stop()
+		// Send immediately
+		b.SendChatAction(ctx, &bot.SendChatActionParams{
+			ChatID: chatID,
+			Action: models.ChatActionTyping,
+		})
+		for {
+			select {
+			case <-ctx.Done():
+				return
+			case <-ticker.C:
+				b.SendChatAction(ctx, &bot.SendChatActionParams{
+					ChatID: chatID,
+					Action: models.ChatActionTyping,
+				})
+			}
+		}
+	}()
+	return cancel
 }
 
 // SendPhoto sends a photo with caption.
