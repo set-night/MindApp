@@ -58,7 +58,7 @@ func (h *Handler) handlePromo(ctx context.Context, b *bot.Bot, update *models.Up
 	b.SendMessage(ctx, &bot.SendMessageParams{
 		ChatID:    chatID,
 		Text:      fmt.Sprintf("✅ Промокод активирован! Начислено *$%.2f*", amount.InexactFloat64()),
-		ParseMode: models.ParseModeMarkdown,
+		ParseMode: models.ParseModeMarkdownV1,
 	})
 
 	h.tgLogger.LogPromoActivate(user.TelegramID, code, amount.InexactFloat64())

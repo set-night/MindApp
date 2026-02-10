@@ -96,7 +96,7 @@ func (h *Handler) handleStartPrivate(ctx context.Context, b *bot.Bot, update *mo
 				ChatID:    chatID,
 				Photo:     &models.InputFileUpload{Filename: "Welcome.png", Data: bytes.NewReader(photoData)},
 				Caption:   welcomeText,
-				ParseMode: models.ParseModeMarkdown,
+				ParseMode: models.ParseModeMarkdownV1,
 			})
 			if sendErr == nil {
 				return
@@ -109,7 +109,7 @@ func (h *Handler) handleStartPrivate(ctx context.Context, b *bot.Bot, update *mo
 	b.SendMessage(ctx, &bot.SendMessageParams{
 		ChatID:    chatID,
 		Text:      welcomeText,
-		ParseMode: models.ParseModeMarkdown,
+		ParseMode: models.ParseModeMarkdownV1,
 	})
 }
 
@@ -130,7 +130,7 @@ func (h *Handler) handleStartGroup(ctx context.Context, b *bot.Bot, update *mode
 	b.SendMessage(ctx, &bot.SendMessageParams{
 		ChatID:    chatID,
 		Text:      text,
-		ParseMode: models.ParseModeMarkdown,
+		ParseMode: models.ParseModeMarkdownV1,
 	})
 }
 
@@ -172,6 +172,6 @@ func (h *Handler) activatePrompt(ctx context.Context, b *bot.Bot, chatID int64, 
 	b.SendMessage(ctx, &bot.SendMessageParams{
 		ChatID:    chatID,
 		Text:      fmt.Sprintf("✅ Промпт *%s* активирован!\n\n_%s_", prompt.Title, prompt.Description),
-		ParseMode: models.ParseModeMarkdown,
+		ParseMode: models.ParseModeMarkdownV1,
 	})
 }

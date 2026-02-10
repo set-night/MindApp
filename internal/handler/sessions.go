@@ -105,14 +105,14 @@ func (h *Handler) sendSessionsPage(ctx context.Context, b *bot.Bot, chatID int64
 			ChatID:      chatID,
 			MessageID:   messageID,
 			Text:        text,
-			ParseMode:   models.ParseModeMarkdown,
+			ParseMode:   models.ParseModeMarkdownV1,
 			ReplyMarkup: keyboard,
 		})
 	} else {
 		b.SendMessage(ctx, &bot.SendMessageParams{
 			ChatID:      chatID,
 			Text:        text,
-			ParseMode:   models.ParseModeMarkdown,
+			ParseMode:   models.ParseModeMarkdownV1,
 			ReplyMarkup: keyboard,
 		})
 	}

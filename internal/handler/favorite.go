@@ -54,7 +54,7 @@ func (h *Handler) handleFavorite(ctx context.Context, b *bot.Bot, update *models
 	b.SendMessage(ctx, &bot.SendMessageParams{
 		ChatID:      chatID,
 		Text:        "⭐ *Избранные модели:*",
-		ParseMode:   models.ParseModeMarkdown,
+		ParseMode:   models.ParseModeMarkdownV1,
 		ReplyMarkup: tg.InlineKeyboard(rows...),
 	})
 }
@@ -92,7 +92,7 @@ func (h *Handler) handleFavSelect(ctx context.Context, b *bot.Bot, update *model
 	b.SendMessage(ctx, &bot.SendMessageParams{
 		ChatID:    chatID,
 		Text:      fmt.Sprintf("✅ Модель изменена на `%s`", modelID),
-		ParseMode: models.ParseModeMarkdown,
+		ParseMode: models.ParseModeMarkdownV1,
 	})
 }
 

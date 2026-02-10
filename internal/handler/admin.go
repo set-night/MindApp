@@ -80,7 +80,7 @@ func (h *Handler) handlePromoCreate(ctx context.Context, b *bot.Bot, update *mod
 	b.SendMessage(ctx, &bot.SendMessageParams{
 		ChatID:    chatID,
 		Text:      sb.String(),
-		ParseMode: models.ParseModeMarkdown,
+		ParseMode: models.ParseModeMarkdownV1,
 	})
 }
 
@@ -133,6 +133,6 @@ func (h *Handler) handleStat(ctx context.Context, b *bot.Bot, update *models.Upd
 	b.SendMessage(ctx, &bot.SendMessageParams{
 		ChatID:    chatID,
 		Text:      text,
-		ParseMode: models.ParseModeMarkdown,
+		ParseMode: models.ParseModeMarkdownV1,
 	})
 }

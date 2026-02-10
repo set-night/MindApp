@@ -64,7 +64,7 @@ func (h *Handler) handlePremium(ctx context.Context, b *bot.Bot, update *models.
 				ChatID:      chatID,
 				Photo:       &models.InputFileUpload{Filename: "Premium.png", Data: bytes.NewReader(photoData)},
 				Caption:     text,
-				ParseMode:   models.ParseModeMarkdown,
+				ParseMode:   models.ParseModeMarkdownV1,
 				ReplyMarkup: tg.InlineKeyboard(rows...),
 			})
 			return
@@ -74,7 +74,7 @@ func (h *Handler) handlePremium(ctx context.Context, b *bot.Bot, update *models.
 	b.SendMessage(ctx, &bot.SendMessageParams{
 		ChatID:      chatID,
 		Text:        text,
-		ParseMode:   models.ParseModeMarkdown,
+		ParseMode:   models.ParseModeMarkdownV1,
 		ReplyMarkup: tg.InlineKeyboard(rows...),
 	})
 }
@@ -123,7 +123,7 @@ func (h *Handler) handlePremiumBuy(ctx context.Context, b *bot.Bot, update *mode
 	b.SendMessage(ctx, &bot.SendMessageParams{
 		ChatID:    chatID,
 		Text:      fmt.Sprintf("✅ Премиум *%s* активирован!", option.Label),
-		ParseMode: models.ParseModeMarkdown,
+		ParseMode: models.ParseModeMarkdownV1,
 	})
 
 	h.tgLogger.LogPremiumPurchase(user.TelegramID, option.Label, option.Price)

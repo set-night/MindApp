@@ -47,7 +47,7 @@ func (h *Handler) handlePrompt(ctx context.Context, b *bot.Bot, update *models.U
 	b.SendMessage(ctx, &bot.SendMessageParams{
 		ChatID:      chatID,
 		Text:        "📝 *Выберите системный промпт:*",
-		ParseMode:   models.ParseModeMarkdown,
+		ParseMode:   models.ParseModeMarkdownV1,
 		ReplyMarkup: tg.InlineKeyboard(rows...),
 	})
 }

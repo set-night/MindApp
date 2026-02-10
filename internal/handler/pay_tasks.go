@@ -62,7 +62,7 @@ func (h *Handler) showTasks(ctx context.Context, b *bot.Bot, update *models.Upda
 	b.SendMessage(ctx, &bot.SendMessageParams{
 		ChatID:      chatID,
 		Text:        sb.String(),
-		ParseMode:   models.ParseModeMarkdown,
+		ParseMode:   models.ParseModeMarkdownV1,
 		ReplyMarkup: tg.InlineKeyboard(rows...),
 	})
 }
@@ -93,7 +93,7 @@ func (h *Handler) handleSelectTask(ctx context.Context, b *bot.Bot, update *mode
 	b.SendMessage(ctx, &bot.SendMessageParams{
 		ChatID:    chatID,
 		Text:      fmt.Sprintf("📋 *%s*\n\nНаграда: *$%.2f*\n\nПодпишитесь на канал и нажмите проверку:", task.Title, task.Reward.InexactFloat64()),
-		ParseMode: models.ParseModeMarkdown,
+		ParseMode: models.ParseModeMarkdownV1,
 		ReplyMarkup: tg.InlineKeyboard(
 			tg.ButtonRow(tg.URLButton("📢 Перейти", task.TelegramLink)),
 			tg.ButtonRow(tg.InlineButton("✅ Проверить", fmt.Sprintf("check_task_%d", task.ID))),
@@ -186,7 +186,7 @@ func (h *Handler) handleCheckTask(ctx context.Context, b *bot.Bot, update *model
 	b.SendMessage(ctx, &bot.SendMessageParams{
 		ChatID:    chatID,
 		Text:      fmt.Sprintf("✅ Задание выполнено! Начислено *$%.2f*", task.Reward.InexactFloat64()),
-		ParseMode: models.ParseModeMarkdown,
+		ParseMode: models.ParseModeMarkdownV1,
 	})
 
 	h.tgLogger.Log(tg.LogTypeFreeBalance, fmt.Sprintf("💰 *Task Reward*\n\nUser: `%d`\nTask: %s\nReward: $%.2f", user.TelegramID, task.Title, task.Reward.InexactFloat64()))

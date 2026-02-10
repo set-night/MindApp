@@ -21,7 +21,7 @@ func SendLongMessage(ctx context.Context, b *bot.Bot, chatID int64, text string,
 		params := &bot.SendMessageParams{
 			ChatID:    chatID,
 			Text:      part,
-			ParseMode: models.ParseModeMarkdown,
+			ParseMode: models.ParseModeMarkdownV1,
 		}
 		if replyToID != nil {
 			params.ReplyParameters = &models.ReplyParameters{
@@ -56,7 +56,7 @@ func EditLongMessage(ctx context.Context, b *bot.Bot, chatID int64, messageID in
 		ChatID:    chatID,
 		MessageID: messageID,
 		Text:      text,
-		ParseMode: models.ParseModeMarkdown,
+		ParseMode: models.ParseModeMarkdownV1,
 	})
 	if err != nil {
 		// Fallback to plain text

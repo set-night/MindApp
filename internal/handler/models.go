@@ -160,7 +160,7 @@ func (h *Handler) sendModelsPage(ctx context.Context, b *bot.Bot, chatID int64, 
 			ChatID:      chatID,
 			MessageID:   messageID,
 			Text:        sb.String(),
-			ParseMode:   models.ParseModeMarkdown,
+			ParseMode:   models.ParseModeMarkdownV1,
 			ReplyMarkup: keyboard,
 		})
 	} else {
@@ -173,7 +173,7 @@ func (h *Handler) sendModelsPage(ctx context.Context, b *bot.Bot, chatID int64, 
 					ChatID:      chatID,
 					Photo:       &models.InputFileUpload{Filename: "Models.png", Data: bytes.NewReader(photoData)},
 					Caption:     sb.String(),
-					ParseMode:   models.ParseModeMarkdown,
+					ParseMode:   models.ParseModeMarkdownV1,
 					ReplyMarkup: keyboard,
 				})
 				if err != nil {
@@ -185,7 +185,7 @@ func (h *Handler) sendModelsPage(ctx context.Context, b *bot.Bot, chatID int64, 
 		b.SendMessage(ctx, &bot.SendMessageParams{
 			ChatID:      chatID,
 			Text:        sb.String(),
-			ParseMode:   models.ParseModeMarkdown,
+			ParseMode:   models.ParseModeMarkdownV1,
 			ReplyMarkup: keyboard,
 		})
 	}

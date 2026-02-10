@@ -67,7 +67,7 @@ func (h *Handler) handlePayPrivate(ctx context.Context, b *bot.Bot, chatID int64
 				ChatID:      chatID,
 				Photo:       &models.InputFileUpload{Filename: "Payment.png", Data: bytes.NewReader(photoData)},
 				Caption:     text,
-				ParseMode:   models.ParseModeMarkdown,
+				ParseMode:   models.ParseModeMarkdownV1,
 				ReplyMarkup: tg.InlineKeyboard(rows...),
 			})
 			return
@@ -77,7 +77,7 @@ func (h *Handler) handlePayPrivate(ctx context.Context, b *bot.Bot, chatID int64
 	b.SendMessage(ctx, &bot.SendMessageParams{
 		ChatID:      chatID,
 		Text:        text,
-		ParseMode:   models.ParseModeMarkdown,
+		ParseMode:   models.ParseModeMarkdownV1,
 		ReplyMarkup: tg.InlineKeyboard(rows...),
 	})
 }
@@ -118,7 +118,7 @@ func (h *Handler) handlePayGroup(ctx context.Context, b *bot.Bot, update *models
 	b.SendMessage(ctx, &bot.SendMessageParams{
 		ChatID:    chatID,
 		Text:      fmt.Sprintf("✅ Переведено *$%.2f* на баланс группы.", amount.InexactFloat64()),
-		ParseMode: models.ParseModeMarkdown,
+		ParseMode: models.ParseModeMarkdownV1,
 	})
 }
 
@@ -150,7 +150,7 @@ func (h *Handler) handleBuyInvoiceMain(ctx context.Context, b *bot.Bot, update *
 		ChatID:      chatID,
 		MessageID:   messageID,
 		Caption:     "⭐ *Оплата через Telegram Stars*\n\nВыберите сумму:",
-		ParseMode:   models.ParseModeMarkdown,
+		ParseMode:   models.ParseModeMarkdownV1,
 		ReplyMarkup: tg.InlineKeyboard(rows...),
 	})
 }
@@ -226,7 +226,7 @@ func (h *Handler) HandleSuccessfulPayment(ctx context.Context, b *bot.Bot, updat
 	b.SendMessage(ctx, &bot.SendMessageParams{
 		ChatID:    chatID,
 		Text:      fmt.Sprintf("✅ Баланс пополнен на *$%d*!", amount),
-		ParseMode: models.ParseModeMarkdown,
+		ParseMode: models.ParseModeMarkdownV1,
 	})
 
 	h.tgLogger.LogBalanceTopUp(user.TelegramID, float64(amount), "Telegram Stars")
@@ -271,7 +271,7 @@ func (h *Handler) handleBuyCryptomusMain(ctx context.Context, b *bot.Bot, update
 		ChatID:      chatID,
 		MessageID:   messageID,
 		Caption:     "🪙 *Оплата криптовалютой*\n\nВыберите сумму:",
-		ParseMode:   models.ParseModeMarkdown,
+		ParseMode:   models.ParseModeMarkdownV1,
 		ReplyMarkup: tg.InlineKeyboard(rows...),
 	})
 }
@@ -328,7 +328,7 @@ func (h *Handler) handleCryptomusAmount(ctx context.Context, b *bot.Bot, update 
 	b.SendMessage(ctx, &bot.SendMessageParams{
 		ChatID:    chatID,
 		Text:      fmt.Sprintf("🪙 Счёт на *$%.2f* создан.\n\nОплатите по ссылке и нажмите кнопку проверки.", amount),
-		ParseMode: models.ParseModeMarkdown,
+		ParseMode: models.ParseModeMarkdownV1,
 		ReplyMarkup: tg.InlineKeyboard(
 			tg.ButtonRow(tg.URLButton("💳 Оплатить", invoice.PaymentURL)),
 			tg.ButtonRow(tg.InlineButton("🔄 Проверить оплату", fmt.Sprintf("check_cryptomus_%s", invoice.InvoiceID))),
@@ -374,7 +374,7 @@ func (h *Handler) handleCheckCryptomus(ctx context.Context, b *bot.Bot, update *
 		b.SendMessage(ctx, &bot.SendMessageParams{
 			ChatID:    chatID,
 			Text:      fmt.Sprintf("✅ Оплата подтверждена! Начислено *$%.2f*", inv.Amount.InexactFloat64()),
-			ParseMode: models.ParseModeMarkdown,
+			ParseMode: models.ParseModeMarkdownV1,
 		})
 		h.tgLogger.LogBalanceTopUp(user.TelegramID, inv.Amount.InexactFloat64(), "Cryptomus")
 

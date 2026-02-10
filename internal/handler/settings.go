@@ -112,7 +112,7 @@ func (h *Handler) sendUserSettings(ctx context.Context, b *bot.Bot, chatID int64
 				ChatID:      chatID,
 				Photo:       &models.InputFileUpload{Filename: "Settings.png", Data: bytes.NewReader(photoData)},
 				Caption:     text,
-				ParseMode:   models.ParseModeMarkdown,
+				ParseMode:   models.ParseModeMarkdownV1,
 				ReplyMarkup: tg.InlineKeyboard(rows...),
 			})
 			if err != nil {
@@ -125,7 +125,7 @@ func (h *Handler) sendUserSettings(ctx context.Context, b *bot.Bot, chatID int64
 	b.SendMessage(ctx, &bot.SendMessageParams{
 		ChatID:      chatID,
 		Text:        text,
-		ParseMode:   models.ParseModeMarkdown,
+		ParseMode:   models.ParseModeMarkdownV1,
 		ReplyMarkup: tg.InlineKeyboard(rows...),
 	})
 }
@@ -174,7 +174,7 @@ func (h *Handler) sendGroupSettings(ctx context.Context, b *bot.Bot, chatID int6
 	b.SendMessage(ctx, &bot.SendMessageParams{
 		ChatID:      chatID,
 		Text:        text,
-		ParseMode:   models.ParseModeMarkdown,
+		ParseMode:   models.ParseModeMarkdownV1,
 		ReplyMarkup: tg.InlineKeyboard(rows...),
 	})
 }
@@ -272,7 +272,7 @@ func (h *Handler) handleSetTemperature(ctx context.Context, b *bot.Bot, update *
 		ChatID:      chatID,
 		MessageID:   messageID,
 		Text:        "🌡 *Выберите температуру:*\n\nНизкая — более точные ответы\nВысокая — более творческие ответы",
-		ParseMode:   models.ParseModeMarkdown,
+		ParseMode:   models.ParseModeMarkdownV1,
 		ReplyMarkup: tg.InlineKeyboard(buttons...),
 	})
 }
@@ -343,7 +343,7 @@ func (h *Handler) handleSetTimeout(ctx context.Context, b *bot.Bot, update *mode
 			ChatID:      chatID,
 			MessageID:   messageID,
 			Text:        "⏱ *Выберите таймаут сессии:*\n\nПо истечении таймаута контекст будет автоматически сброшен.",
-			ParseMode:   models.ParseModeMarkdown,
+			ParseMode:   models.ParseModeMarkdownV1,
 			ReplyMarkup: tg.InlineKeyboard(buttons...),
 		})
 		return
