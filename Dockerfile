@@ -9,7 +9,6 @@ COPY go.mod go.sum ./
 RUN go mod download
 
 COPY . .
-RUN ls -la /build && ls -la /build/cmd || echo "NO cmd DIRECTORY"
 RUN CGO_ENABLED=0 go build -ldflags="-w -s" -o /build/bot ./cmd/bot
 
 # Final stage
